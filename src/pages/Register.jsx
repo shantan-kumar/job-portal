@@ -1,64 +1,134 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // import useNavigate
 
-export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    age: "",
+    gender: "",
+  });
 
-  const handleRegister = (e) => {
+  const navigate = useNavigate(); // initialize navigate
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && email && password) {
-      alert("Registration successful! Please login.");
-      navigate("/");
-    } else {
-      alert("Fill in all fields");
-    }
+    // Replace this with actual API call
+    console.log("Register data:", formData);
+    alert("Registration successful! Redirecting to login.");
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      age: "",
+      gender: "",
+    });
+
+    // Redirect to login page
+    navigate("/"); // assumes your login route is "/login"
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-400 to-blue-500">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">
-          Create an Account
-        </h1>
-        <form onSubmit={handleRegister}>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-500">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-80 sm:w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
+          Register
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
           <input
+            placeholder="Name"
             type="text"
-            placeholder="Full Name"
-            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
           />
+
+          {/* Email */}
           <input
-            type="email"
             placeholder="Email"
-            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
           />
+
+          {/* Password */}
           <input
-            type="password"
             placeholder="Password"
-            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
           />
+
+          {/* Age */}
+          <select
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
+            className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          >
+            <option value="">Select Age</option>
+            {Array.from({ length: 45 }, (_, i) => i + 21).map((age) => (
+              <option key={age} value={age}>
+                {age}
+              </option>
+            ))}
+          </select>
+
+          {/* Gender */}
+          <div className="flex justify-evenly">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={formData.gender === "male"}
+                onChange={handleChange}
+                className="mr-2"
+                required
+              />
+              Male
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={formData.gender === "female"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Female
+            </label>
+          </div>
+
+          {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-green-500 text-white p-3 rounded-lg font-semibold hover:bg-green-600"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold hover:bg-blue-600"
           >
             Register
           </button>
         </form>
-        <p className="text-sm text-gray-600 mt-4 text-center">
-          Already have an account?{" "}
-          <Link to="/" className="text-blue-500 hover:underline">
-            Login here
-          </Link>
-        </p>
       </div>
     </div>
   );
 }
+
+export default Register;
