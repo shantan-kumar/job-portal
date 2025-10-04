@@ -3,12 +3,14 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import JobPortal from "./pages/JobPortal";
 import ResumeUpload from "./pages/ResumeUpload";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />}/>
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/jobs" element={<JobPortal />} />
         <Route path="/upload-resume" element={<ResumeUpload />} />
